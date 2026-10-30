@@ -25,6 +25,18 @@ const navItems = computed<NavItem[]>(() => [
         visible: true,
     },
     {
+        label: ui.value?.nav?.scan_station ?? 'Pos Absensi',
+        href: route('scan-station.index'),
+        active: route().current('scan-station.*'),
+        visible: Boolean(user.value?.can?.operate_scan),
+    },
+    {
+        label: ui.value?.nav?.cards ?? 'Kartu NFC',
+        href: route('cards.index'),
+        active: route().current('cards.*'),
+        visible: Boolean(user.value?.can?.manage_cards),
+    },
+    {
         label: ui.value?.nav?.students ?? 'Data Siswa',
         href: route('students.index'),
         active: route().current('students.*'),
@@ -47,6 +59,12 @@ const navItems = computed<NavItem[]>(() => [
         href: route('holidays.index'),
         active: route().current('holidays.*'),
         visible: Boolean(user.value?.can?.view_holidays),
+    },
+    {
+        label: ui.value?.nav?.devices ?? 'Perangkat Pos',
+        href: route('devices.index'),
+        active: route().current('devices.*'),
+        visible: Boolean(user.value?.can?.manage_devices),
     },
     {
         label: ui.value?.nav?.users ?? 'Pengguna & Guru',

@@ -6,7 +6,7 @@
         "build": "vite build",
         "dev": "vite",
         "type-check": "vue-tsc --noEmit",
-        "test:unit": "node --test resources/js/utils/__tests__/nfcUid.test.ts",
+        "test:unit": "node --test resources/js/utils/__tests__/nfcUid.test.ts resources/js/composables/__tests__/useNfcScanner.test.ts",
         "ci": "npm run type-check && npm run test:unit && npm run build"
     },
     "devDependencies": {

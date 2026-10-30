@@ -2,10 +2,13 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\PermissionEnum;
 use App\Enums\RoleEnum;
 use App\Models\AcademicYear;
 use App\Models\Classroom;
+use App\Models\Device;
 use App\Models\Holiday;
+use App\Models\NfcCard;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -46,6 +49,9 @@ class AuthUserResource extends JsonResource
             'can' => [
                 'manage_users' => $user->can('viewAny', User::class),
                 'manage_master' => $user->can('create', Student::class),
+                'manage_cards' => $user->can('viewAny', NfcCard::class),
+                'manage_devices' => $user->can('viewAny', Device::class),
+                'operate_scan' => $user->can(PermissionEnum::ScanOperate->value),
                 'view_classrooms' => $user->can('viewAny', Classroom::class),
                 'view_students' => $user->can('viewAny', Student::class),
                 'view_academic_years' => $user->can('viewAny', AcademicYear::class),

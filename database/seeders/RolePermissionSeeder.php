@@ -25,6 +25,7 @@ class RolePermissionSeeder extends Seeder
                 PermissionEnum::MasterManage->value,
                 PermissionEnum::CardsManage->value,
                 PermissionEnum::RulesManage->value,
+                PermissionEnum::ScanOperate->value,
                 PermissionEnum::AttendanceViewAll->value,
                 PermissionEnum::AttendanceExcuse->value,
                 PermissionEnum::AttendanceCorrect->value,

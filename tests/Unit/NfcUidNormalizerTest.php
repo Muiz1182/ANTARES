@@ -41,4 +41,3 @@ test('rejects every invalid sample from docs/reader-sample.md', function (string
         ->and(fn () => NfcUidNormalizer::normalize($invalidRaw))
         ->toThrow(InvalidArgumentException::class);
 })->with('invalid_reader_samples');
-

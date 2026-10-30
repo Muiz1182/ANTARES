@@ -2,10 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Enums\NfcCardStatusEnum;
 use App\Enums\RoleEnum;
 use App\Models\AcademicYear;
 use App\Models\Classroom;
+use App\Models\Device;
 use App\Models\Holiday;
+use App\Models\NfcCard;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -13,9 +16,14 @@ use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
+    public const DEFAULT_DEV_DEVICE_TOKEN = 'dev-station-token-gerbang-utama-2026';
+
     public function run(): void
     {
-        $this->call(RolePermissionSeeder::class);
+        $this->call([
+            RolePermissionSeeder::class,
+            AttendanceRuleSeeder::class,
+        ]);
 
         $superAdmin = User::updateOrCreate(
             ['email' => 'superadmin@sekolah.sch.id'],
@@ -126,5 +134,31 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Libur nasional peringatan HUT RI',
             ]
         );
+
+        Device::updateOrCreate(
+            ['name' => 'Pos Gerbang Utama'],
+            [
+                'location' => 'Gerbang Depan Sekolah',
+                'token_hash' => Device::hashToken(self::DEFAULT_DEV_DEVICE_TOKEN),
+                'is_active' => true,
+            ]
+        );
+
+        $sampleUids = ['04A1B2C3', 'C3B2A104', '0044DA59', '04A1B2C3D4E5F6'];
+        $demoStudents = Student::query()->orderBy('id')->limit(count($sampleUids))->get();
+
+        foreach ($demoStudents as $index => $student) {
+            NfcCard::updateOrCreate(
+                ['uid' => $sampleUids[$index]],
+                [
+                    'cardable_type' => Student::class,
+                    'cardable_id' => $student->id,
+                    'status' => NfcCardStatusEnum::Active,
+                    'issued_at' => now(),
+                    'issued_by' => $adminTu->id,
+                    'notes' => 'Kartu sampel bawaan seeder pengembangan',
+                ]
+            );
+        }
     }
 }

@@ -33,6 +33,9 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 'success' => fn () => $request->session()->get('success'),
                 'error' => fn () => $request->session()->get('error'),
+                'plain_device_token' => fn () => $request->session()->get('plain_device_token'),
+                'plain_device_name' => fn () => $request->session()->get('plain_device_name'),
+                'last_assigned_card_id' => fn () => $request->session()->get('last_assigned_card_id'),
             ],
             'ui' => fn () => trans('ui'),
         ];

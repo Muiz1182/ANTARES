@@ -3,6 +3,9 @@
 export interface AuthPermissions {
     manage_users: boolean;
     manage_master: boolean;
+    manage_cards: boolean;
+    manage_devices: boolean;
+    operate_scan: boolean;
     view_classrooms: boolean;
     view_students: boolean;
     view_academic_years: boolean;
@@ -31,6 +34,10 @@ export interface SharedUiStrings {
     states: Record<string, string>;
     roles: Record<string, string>;
     genders: Record<string, string>;
+    card_statuses: Record<string, string>;
+    attendance_statuses: Record<string, string>;
+    attendance_sources: Record<string, string>;
+    scan_results: Record<string, string>;
     messages: Record<string, string>;
 }
 
@@ -42,6 +49,9 @@ declare module '@inertiajs/core' {
         flash: {
             success?: string | null;
             error?: string | null;
+            plain_device_token?: string | null;
+            plain_device_name?: string | null;
+            last_assigned_card_id?: number | null;
         };
         ui: SharedUiStrings;
     }

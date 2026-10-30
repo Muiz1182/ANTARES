@@ -42,6 +42,52 @@ const user = computed(() => page.props.auth.user);
 
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <div
+                    v-if="user.can.operate_scan"
+                    class="flex flex-col justify-between rounded border border-slate-300 bg-white p-5"
+                >
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900">Pos Absensi NFC (Scan Station)</h3>
+                        <p class="mt-1 text-sm text-slate-700">
+                            Layar penuh pemindaian kartu NFC siswa waktu nyata dengan umpan balik suara dan daftar 10 tap terakhir.
+                        </p>
+                    </div>
+                    <div class="mt-4">
+                        <Link
+                            :href="route('scan-station.index')"
+                            class="inline-flex min-h-[44px] items-center rounded bg-emerald-700 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
+                        >
+                            Buka Pos Absensi
+                        </Link>
+                    </div>
+                </div>
+
+                <div
+                    v-if="user.can.manage_cards"
+                    class="flex flex-col justify-between rounded border border-slate-300 bg-white p-5"
+                >
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900">Registrasi &amp; Manajemen Kartu NFC</h3>
+                        <p class="mt-1 text-sm text-slate-700">
+                            Pasangkan kartu NFC ke siswa, ganti kartu hilang atau rusak, serta lakukan registrasi massal beruntun per kelas.
+                        </p>
+                    </div>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <Link
+                            :href="route('cards.index')"
+                            class="inline-flex min-h-[44px] items-center rounded bg-emerald-700 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
+                        >
+                            Kelola Kartu NFC
+                        </Link>
+                        <Link
+                            :href="route('cards.bulk')"
+                            class="inline-flex min-h-[44px] items-center rounded border border-slate-500 bg-white px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
+                        >
+                            Registrasi Massal
+                        </Link>
+                    </div>
+                </div>
+
+                <div
                     v-if="user.can.view_students"
                     class="flex flex-col justify-between rounded border border-slate-300 bg-white p-5"
                 >
@@ -110,6 +156,26 @@ const user = computed(() => page.props.auth.user);
                             class="inline-flex min-h-[44px] items-center rounded border border-slate-500 bg-white px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
                         >
                             Hari Libur
+                        </Link>
+                    </div>
+                </div>
+
+                <div
+                    v-if="user.can.manage_devices"
+                    class="flex flex-col justify-between rounded border border-slate-300 bg-white p-5"
+                >
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900">Perangkat Pos Absensi</h3>
+                        <p class="mt-1 text-sm text-slate-700">
+                            Kelola terminal pos pemindaian, terbitkan token autentikasi perangkat, atau nonaktifkan akses pos.
+                        </p>
+                    </div>
+                    <div class="mt-4">
+                        <Link
+                            :href="route('devices.index')"
+                            class="inline-flex min-h-[44px] items-center rounded border border-slate-500 bg-white px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
+                        >
+                            Kelola Perangkat Pos
                         </Link>
                     </div>
                 </div>

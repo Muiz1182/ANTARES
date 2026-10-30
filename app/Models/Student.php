@@ -3,12 +3,15 @@
 namespace App\Models;
 
 use App\Enums\GenderEnum;
+use App\Enums\NfcCardStatusEnum;
 use App\Enums\PermissionEnum;
 use Database\Factories\StudentFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 
@@ -50,6 +53,31 @@ class Student extends Model
     public function classroom(): BelongsTo
     {
         return $this->belongsTo(Classroom::class);
+    }
+
+    /**
+     * @return MorphMany<NfcCard, $this>
+     */
+    public function nfcCards(): MorphMany
+    {
+        return $this->morphMany(NfcCard::class, 'cardable')->orderByDesc('issued_at');
+    }
+
+    /**
+     * @return MorphOne<NfcCard, $this>
+     */
+    public function activeNfcCard(): MorphOne
+    {
+        return $this->morphOne(NfcCard::class, 'cardable')
+            ->where('status', NfcCardStatusEnum::Active->value);
+    }
+
+    /**
+     * @return MorphMany<Attendance, $this>
+     */
+    public function attendances(): MorphMany
+    {
+        return $this->morphMany(Attendance::class, 'attendable');
     }
 
     public function photoUrl(): ?string

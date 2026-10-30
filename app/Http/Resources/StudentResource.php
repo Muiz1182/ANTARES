@@ -31,6 +31,9 @@ class StudentResource extends JsonResource
             'parent_name' => $this->parent_name,
             'parent_phone' => $this->parent_phone,
             'is_active' => (bool) $this->is_active,
+            'active_card' => $this->whenLoaded('activeNfcCard', fn () => $this->activeNfcCard
+                ? (new NfcCardResource($this->activeNfcCard))->resolve($request)
+                : null),
         ];
     }
 }
