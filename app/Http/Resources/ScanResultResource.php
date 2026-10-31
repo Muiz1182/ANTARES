@@ -29,4 +29,3 @@ class ScanResultResource extends JsonResource
         ];
     }
 }
-

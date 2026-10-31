@@ -13,6 +13,7 @@ use App\Models\Device;
 use App\Models\Holiday;
 use App\Models\NfcCard;
 use App\Models\Student;
+use App\Services\Audit\AuditLogService;
 use App\Support\NfcUidNormalizer;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
@@ -20,6 +21,10 @@ use Illuminate\Support\Facades\DB;
 
 class ScanService
 {
+    public function __construct(
+        private readonly AuditLogService $auditLogService,
+    ) {}
+
     /**
      * Evaluate and record an NFC card tap according to PRD Section 4.3.
      *
@@ -191,6 +196,13 @@ class ScanService
                             'device_id' => $device?->id,
                         ]);
                     } else {
+                        $beforeState = [
+                            'date' => $existingAttendance->date,
+                            'status' => $existingAttendance->status->value,
+                            'source' => $existingAttendance->source->value,
+                            'check_in_at' => $existingAttendance->check_in_at?->setTimezone('Asia/Jakarta')->toIso8601String(),
+                        ];
+
                         $existingAttendance->update([
                             'check_in_at' => $scanTime,
                             'status' => $status,
@@ -198,6 +210,19 @@ class ScanService
                             'device_id' => $device?->id,
                         ]);
                         $attendance = $existingAttendance->fresh();
+
+                        $this->auditLogService->record(
+                            action: 'attendance.auto_absent_overridden',
+                            subject: $attendance,
+                            before: $beforeState,
+                            after: [
+                                'date' => $attendance->date,
+                                'status' => $attendance->status->value,
+                                'source' => $attendance->source->value,
+                                'check_in_at' => $attendance->check_in_at?->setTimezone('Asia/Jakarta')->toIso8601String(),
+                            ],
+                            reason: 'Tap masuk kartu NFC menggantikan status Alpa otomatis.',
+                        );
                     }
 
                     return $this->finalizeScan(
@@ -373,4 +398,3 @@ class ScanService
         return $payload;
     }
 }
-

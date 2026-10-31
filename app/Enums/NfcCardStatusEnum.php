@@ -25,4 +25,3 @@ enum NfcCardStatusEnum: string
         return array_map(static fn (self $case): string => $case->value, self::cases());
     }
 }
-

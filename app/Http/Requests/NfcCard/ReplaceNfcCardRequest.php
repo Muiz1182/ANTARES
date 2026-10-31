@@ -57,4 +57,3 @@ class ReplaceNfcCardRequest extends FormRequest
         ];
     }
 }
-

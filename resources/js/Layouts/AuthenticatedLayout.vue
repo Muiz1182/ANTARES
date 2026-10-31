@@ -9,6 +9,7 @@ const isNavigating = ref(false);
 const user = computed(() => page.props.auth.user);
 const ui = computed(() => page.props.ui);
 const flash = computed(() => page.props.flash);
+const schoolSetting = computed(() => page.props.schoolSetting);
 
 interface NavItem {
     label: string;
@@ -31,6 +32,18 @@ const navItems = computed<NavItem[]>(() => [
         visible: Boolean(user.value?.can?.operate_scan),
     },
     {
+        label: ui.value?.nav?.class_today ?? 'Kehadiran Kelas',
+        href: route('attendances.today'),
+        active: route().current('attendances.*'),
+        visible: Boolean(user.value?.can?.view_attendances),
+    },
+    {
+        label: ui.value?.nav?.reports ?? 'Laporan & Rekap',
+        href: route('reports.index'),
+        active: route().current('reports.*'),
+        visible: Boolean(user.value?.can?.view_reports),
+    },
+    {
         label: ui.value?.nav?.cards ?? 'Kartu NFC',
         href: route('cards.index'),
         active: route().current('cards.*'),
@@ -47,6 +60,12 @@ const navItems = computed<NavItem[]>(() => [
         href: route('classrooms.index'),
         active: route().current('classrooms.*'),
         visible: Boolean(user.value?.can?.view_classrooms),
+    },
+    {
+        label: ui.value?.nav?.attendance_rules ?? 'Aturan Jam',
+        href: route('attendance-rules.index'),
+        active: route().current('attendance-rules.*'),
+        visible: Boolean(user.value?.can?.manage_rules),
     },
     {
         label: ui.value?.nav?.academic_years ?? 'Tahun Ajaran',
@@ -67,10 +86,22 @@ const navItems = computed<NavItem[]>(() => [
         visible: Boolean(user.value?.can?.manage_devices),
     },
     {
+        label: ui.value?.nav?.audit_logs ?? 'Log Audit',
+        href: route('audit-logs.index'),
+        active: route().current('audit-logs.*'),
+        visible: Boolean(user.value?.can?.view_audit_logs),
+    },
+    {
         label: ui.value?.nav?.users ?? 'Pengguna & Guru',
         href: route('users.index'),
         active: route().current('users.*'),
         visible: Boolean(user.value?.can?.manage_users),
+    },
+    {
+        label: ui.value?.nav?.settings ?? 'Pengaturan Sekolah',
+        href: route('settings.edit'),
+        active: route().current('settings.*'),
+        visible: Boolean(user.value?.can?.manage_settings),
     },
 ]);
 
@@ -111,9 +142,15 @@ onUnmounted(() => {
                     <div class="flex items-center gap-6">
                         <Link
                             :href="route('dashboard')"
-                            class="inline-flex min-h-[44px] items-center rounded px-2 text-base font-bold tracking-tight text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
+                            class="inline-flex min-h-[44px] items-center gap-2 rounded px-2 text-base font-bold tracking-tight text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
                         >
-                            {{ ui?.app_name ?? '[LOGO] Sistem Absensi NFC SMP' }}
+                            <img
+                                v-if="schoolSetting?.logo_url"
+                                :src="schoolSetting.logo_url"
+                                :alt="schoolSetting.school_name"
+                                class="h-8 w-8 rounded object-contain"
+                            />
+                            <span>{{ schoolSetting?.school_name ?? ui?.app_name ?? '[LOGO] Sistem Absensi NFC SMP' }}</span>
                         </Link>
 
                         <nav

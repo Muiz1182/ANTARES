@@ -38,4 +38,3 @@ class ScanStationController extends Controller
         ]);
     }
 }
-

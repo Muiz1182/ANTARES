@@ -51,4 +51,3 @@ class StoreNfcCardRequest extends FormRequest
         ];
     }
 }
-

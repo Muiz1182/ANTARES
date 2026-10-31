@@ -169,4 +169,3 @@ class NfcCardController extends Controller
             ]));
     }
 }
-

@@ -24,4 +24,3 @@ class AttendanceRuleSeeder extends Seeder
         }
     }
 }
-

@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolePermissionSeeder::class,
             AttendanceRuleSeeder::class,
+            SchoolSettingSeeder::class,
         ]);
 
         $superAdmin = User::updateOrCreate(

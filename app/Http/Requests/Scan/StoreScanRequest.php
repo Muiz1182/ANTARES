@@ -23,4 +23,3 @@ class StoreScanRequest extends FormRequest
         ];
     }
 }
-

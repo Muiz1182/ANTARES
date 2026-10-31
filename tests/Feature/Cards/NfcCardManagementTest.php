@@ -118,4 +118,3 @@ test('non-authorized roles cannot access card registration routes', function () 
     $this->actingAs($piket)->get(route('cards.index'))->assertForbidden();
     $this->actingAs($wali)->get(route('cards.bulk'))->assertForbidden();
 });
-

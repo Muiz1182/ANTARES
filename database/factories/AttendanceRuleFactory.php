@@ -28,4 +28,3 @@ class AttendanceRuleFactory extends Factory
         ];
     }
 }
-

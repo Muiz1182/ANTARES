@@ -1,20 +1,22 @@
 <?php
 
 use App\Http\Controllers\AcademicYearController;
+use App\Http\Controllers\AttendanceRuleController;
+use App\Http\Controllers\AuditLogController;
+use App\Http\Controllers\ClassAttendanceController;
 use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\NfcCardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ScanStationController;
+use App\Http\Controllers\SchoolSettingController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentImportController;
 use App\Http\Controllers\UserController;
-use App\Http\Resources\AcademicYearResource;
-use App\Models\AcademicYear;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -25,13 +27,8 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', function (Request $request) {
-        $activeYear = AcademicYear::query()->active()->first();
-
-        return Inertia::render('Dashboard', [
-            'activeAcademicYear' => $activeYear ? (new AcademicYearResource($activeYear))->resolve($request) : null,
-        ]);
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/live-state', [DashboardController::class, 'liveState'])->name('dashboard.live-state');
 
     Route::get('/scan-station', [ScanStationController::class, 'index'])->name('scan-station.index');
 
@@ -46,6 +43,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/devices', [DeviceController::class, 'store'])->name('devices.store');
     Route::put('/devices/{device}', [DeviceController::class, 'update'])->name('devices.update');
     Route::post('/devices/{device}/regenerate-token', [DeviceController::class, 'regenerateToken'])->name('devices.regenerate-token');
+
+    Route::get('/attendance-rules', [AttendanceRuleController::class, 'index'])->name('attendance-rules.index');
+    Route::put('/attendance-rules', [AttendanceRuleController::class, 'update'])->name('attendance-rules.update');
+
+    Route::get('/attendances/today', [ClassAttendanceController::class, 'today'])->name('attendances.today');
+    Route::post('/attendances/excuse', [ClassAttendanceController::class, 'storeExcuse'])->name('attendances.excuse');
+    Route::post('/attendances/correct', [ClassAttendanceController::class, 'correct'])->name('attendances.correct');
+
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/export/excel', [ReportController::class, 'exportExcel'])->name('reports.export.excel');
+    Route::get('/reports/export/pdf', [ReportController::class, 'exportPdf'])->name('reports.export.pdf');
+
+    Route::get('/settings', [SchoolSettingController::class, 'edit'])->name('settings.edit');
+    Route::post('/settings', [SchoolSettingController::class, 'update'])->name('settings.update');
+
+    Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('audit-logs.index');
 
     Route::resource('academic-years', AcademicYearController::class)
         ->only(['index', 'store', 'update', 'destroy']);

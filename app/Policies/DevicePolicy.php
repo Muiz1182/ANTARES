@@ -33,4 +33,3 @@ class DevicePolicy
         return $user->can(PermissionEnum::DevicesManage->value);
     }
 }
-

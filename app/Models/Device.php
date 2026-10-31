@@ -72,4 +72,3 @@ class Device extends Model
         return hash('sha256', trim($plainToken));
     }
 }
-

@@ -30,4 +30,3 @@ class ScanApiController extends Controller
             ->setStatusCode(200);
     }
 }
-

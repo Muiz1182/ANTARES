@@ -50,4 +50,3 @@ test('super_admin can create device, receive plain token once, regenerate token,
 
     expect($device->fresh()->is_active)->toBeFalse();
 });
-

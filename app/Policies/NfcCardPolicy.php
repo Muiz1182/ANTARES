@@ -33,4 +33,3 @@ class NfcCardPolicy
         return $user->can(PermissionEnum::CardsManage->value);
     }
 }
-

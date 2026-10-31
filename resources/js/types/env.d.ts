@@ -1,5 +1,7 @@
 /// <reference types="vite/client" />
 
+import type { SchoolSettingItem } from './models';
+
 export interface AuthPermissions {
     manage_users: boolean;
     manage_master: boolean;
@@ -10,6 +12,13 @@ export interface AuthPermissions {
     view_students: boolean;
     view_academic_years: boolean;
     view_holidays: boolean;
+    manage_rules: boolean;
+    view_attendances: boolean;
+    excuse_attendance: boolean;
+    correct_attendance: boolean;
+    view_audit_logs: boolean;
+    view_reports: boolean;
+    manage_settings: boolean;
 }
 
 export interface AuthUser {
@@ -38,7 +47,10 @@ export interface SharedUiStrings {
     attendance_statuses: Record<string, string>;
     attendance_sources: Record<string, string>;
     scan_results: Record<string, string>;
+    days: Record<string, string>;
+    audit_actions: Record<string, string>;
     messages: Record<string, string>;
+    flash: Record<string, string>;
 }
 
 declare module '@inertiajs/core' {
@@ -54,6 +66,7 @@ declare module '@inertiajs/core' {
             last_assigned_card_id?: number | null;
         };
         ui: SharedUiStrings;
+        schoolSetting?: SchoolSettingItem;
     }
 }
 

@@ -5,10 +5,14 @@ namespace App\Http\Resources;
 use App\Enums\PermissionEnum;
 use App\Enums\RoleEnum;
 use App\Models\AcademicYear;
+use App\Models\Attendance;
+use App\Models\AttendanceRule;
+use App\Models\AuditLog;
 use App\Models\Classroom;
 use App\Models\Device;
 use App\Models\Holiday;
 use App\Models\NfcCard;
+use App\Models\SchoolSetting;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -56,6 +60,14 @@ class AuthUserResource extends JsonResource
                 'view_students' => $user->can('viewAny', Student::class),
                 'view_academic_years' => $user->can('viewAny', AcademicYear::class),
                 'view_holidays' => $user->can('viewAny', Holiday::class),
+                'manage_rules' => $user->can('viewAny', AttendanceRule::class),
+                'view_attendances' => $user->can('viewAny', Attendance::class),
+                'excuse_attendance' => $user->can('excuse', Attendance::class),
+                'correct_attendance' => $user->can('correct', Attendance::class),
+                'view_audit_logs' => $user->can('viewAny', AuditLog::class),
+                'view_reports' => $user->can(PermissionEnum::ReportsView->value)
+                    || $user->can(PermissionEnum::AttendanceViewOwnClass->value),
+                'manage_settings' => $user->can('viewAny', SchoolSetting::class),
             ],
         ];
     }

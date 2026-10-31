@@ -335,4 +335,3 @@ test('7. check-out window: handles success_out, already_checked_out, and no_chec
 
     expect(Attendance::where('attendable_id', $studentNoCheckin->id)->exists())->toBeFalse();
 });
-

@@ -35,4 +35,3 @@ class AttendanceLogResource extends JsonResource
         ];
     }
 }
-

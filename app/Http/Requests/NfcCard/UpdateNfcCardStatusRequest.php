@@ -32,4 +32,3 @@ class UpdateNfcCardStatusRequest extends FormRequest
         ];
     }
 }
-

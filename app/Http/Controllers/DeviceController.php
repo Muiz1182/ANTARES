@@ -64,4 +64,3 @@ class DeviceController extends Controller
             ->with('plain_device_name', $result['device']->name);
     }
 }
-

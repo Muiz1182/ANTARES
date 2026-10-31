@@ -35,4 +35,3 @@ class AttendanceLogFactory extends Factory
         ];
     }
 }
-

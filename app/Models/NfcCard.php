@@ -87,4 +87,3 @@ class NfcCard extends Model
         return $query->where('status', NfcCardStatusEnum::Active->value);
     }
 }
-

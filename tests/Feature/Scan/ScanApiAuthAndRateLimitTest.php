@@ -111,4 +111,3 @@ test('Scan Station page is accessible to piket, admin_tu, and super_admin but re
     $this->actingAs($waliKelas)->get('/scan-station')->assertForbidden();
     $this->actingAs($kepsek)->get('/scan-station')->assertForbidden();
 });
-

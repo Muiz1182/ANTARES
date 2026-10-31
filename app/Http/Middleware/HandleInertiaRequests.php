@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use App\Http\Resources\AuthUserResource;
+use App\Http\Resources\SchoolSettingResource;
+use App\Models\SchoolSetting;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -38,6 +40,7 @@ class HandleInertiaRequests extends Middleware
                 'last_assigned_card_id' => fn () => $request->session()->get('last_assigned_card_id'),
             ],
             'ui' => fn () => trans('ui'),
+            'schoolSetting' => fn () => (new SchoolSettingResource(SchoolSetting::current()))->resolve($request),
         ];
     }
 }

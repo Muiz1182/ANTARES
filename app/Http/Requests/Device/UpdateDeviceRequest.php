@@ -27,4 +27,3 @@ class UpdateDeviceRequest extends FormRequest
         ];
     }
 }
-

@@ -28,4 +28,3 @@ class DeviceResource extends JsonResource
         ];
     }
 }
-

@@ -48,4 +48,3 @@ class NfcCardResource extends JsonResource
         ];
     }
 }
-

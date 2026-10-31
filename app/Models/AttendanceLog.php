@@ -69,4 +69,3 @@ class AttendanceLog extends Model
         return $this->belongsTo(Device::class);
     }
 }
-
